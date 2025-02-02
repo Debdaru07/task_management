@@ -65,6 +65,69 @@ app.delete('/lists/:id', (req, res) => {
     })
 })
 
+
+/* 
+    * GET /lists/:id/tasks/
+    * Purpose :- return all the tasks that belongs to a specific list
+*/
+
+app.get('/lists/:listId/tasks', (req, res) => {
+    Task.find({
+        _listId: req.params.listId
+    }).then((tasks) => {
+        res.send(tasks)
+    }).catch((err) => {
+        console.error(err);
+        res.status(400).send(err);
+    });;
+})
+
+
+/* 
+    * POST /lists/:listId/tasks/
+    * Purpose :- Create a new Task entry under a list.
+*/
+
+app.post('/lists/:listId/tasks', (req, res) => {
+    let newTask = new Task({
+        title: req.body.title,
+        _listId: req.params.listId
+    });
+    newTask.save().then((newTaskDoc) => {
+        console.log(newTaskDoc)
+        res.send(newTaskDoc);
+    })
+})
+
+/* 
+    * PATCH /lists/:listId/tasks/:taskId
+    * Purpose :- Update an existing Task entry under a list.
+*/
+
+app.patch('/lists/:listId/tasks/:taskId', (req, res) => {
+    Task.findOneAndUpdate({_id: req.params.taskId}, {
+        $set: {
+            "title": req.body.title,
+            "_listId": req.params.listId
+        }
+    }).then(() => {
+        res.sendStatus(200);
+    })
+})
+
+/* 
+    * DELETE /lists/:listId/tasks/:taskId
+    * Purpose :- Delete an existing Task entry under a list.
+*/
+
+app.delete('/lists/:listId/tasks/:taskId', (req, res) => {
+    Task.findOneAndDelete({_id: req.params.taskId}
+    ).then((removedListDoc) => {
+        res.send(removedListDoc);
+    })
+})
+
+
 app.listen(2000, () => {
     console.log('Server listening on port :- 2000');
 })
