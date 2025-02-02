@@ -45,6 +45,11 @@ app.post('/lists', (req, res) => {
 */
 app.patch('/lists/:id', (req, res) => {
     // Update the specified list, with id in the request url with the new values specified in the json of the list.
+    List.findOneAndUpdate({_id: req.params.id}, {
+        $set: req.body
+    }).then(() => {
+        res.sendStatus(200);
+    })
 })
 
 /* 
@@ -53,6 +58,11 @@ app.patch('/lists/:id', (req, res) => {
 */
 app.delete('/lists/:id', (req, res) => {
     // Delete the specified list, with id in the request url with the new values specified in the json of the list.
+    List.findOneAndDelete(
+        { _id: req.params.id }, 
+    ).then((removedListDoc) => {
+        res.send(removedListDoc);
+    })
 })
 
 app.listen(2000, () => {

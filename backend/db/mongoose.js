@@ -3,9 +3,8 @@
 const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost:27017/task_manager', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
+mongoose.connect('mongodb://127.0.0.1:27017/task_manager', {
+    serverSelectionTimeoutMS: 5000,
 }).then(() => {
     console.log('DB connected successfully :)');
 }).catch((err) => {
