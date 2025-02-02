@@ -82,6 +82,21 @@ app.get('/lists/:listId/tasks', (req, res) => {
     });;
 })
 
+/* 
+    * GET /lists/:id/tasks/
+    * Purpose :- return all the tasks that belongs to a specific list
+*/
+
+app.get('/lists/:listId/tasks/:taskId', (req, res) => {
+    Task.findById({
+        _id: req.params.taskId
+    }).then((tasks) => {
+        res.send(tasks)
+    }).catch((err) => {
+        console.error(err);
+        res.status(400).send(err);
+    });;
+})
 
 /* 
     * POST /lists/:listId/tasks/
