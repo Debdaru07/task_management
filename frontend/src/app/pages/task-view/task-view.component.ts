@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TaskService } from '../../service/task.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-task-view',
@@ -8,17 +8,12 @@ import { TaskService } from '../../service/task.service';
   styleUrl: './task-view.component.scss'
 })
 export class TaskViewComponent implements OnInit{
-  
-  constructor(private taskService: TaskService) {}
-  
-  ngOnInit(): void {
-      
+  constructor(private router: Router) {}
+
+  ngOnInit(): void {}
+
+  navigateToNewList() {
+    this.router.navigate(['/new-list']);
   }
   
-  createNewList() {
-    // title: String
-    this.taskService.createList('Todays list').subscribe((response: any) => {
-      console.log(response);
-    });
-  }
 }
